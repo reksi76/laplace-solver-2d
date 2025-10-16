@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt 
 import numpy as np 
+import matplotlib.animation as animation
 from src.fields import compute_electric_field
 
 def plot_heatmap(phi):
@@ -17,4 +18,20 @@ def plot_quiver(phi):
     plt.quiver(Y, X, Ex, Ey, color='white')
     plt.title('Electric Field from Potential')
     plt.show()
+
+def animate_solution(history):
+    fig, ax = plt.subplots()
+    img = ax.imshow(history[0], cmap='inferno', origin='lower')
+
+    def update(frame):
+        img.set_array(history[frame])
+        ax.set_title(f'Iteration {frame}')
+        return [img]
+
+    ani = animation.FuncAnimation(
+            fig, update, frames=len(history), interval=100, blit=True
+            )
+
+    plt.show()
+
 
